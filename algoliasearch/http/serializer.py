@@ -1,7 +1,7 @@
-import json
 import calendar
 import datetime
 import decimal
+import json
 import sys
 
 from typing import Union, Any, Dict
@@ -47,6 +47,19 @@ class SettingsDeserializer(object):
         for deprecated_key, current_key in get_items(keys):
             if deprecated_key in data:
                 data[current_key] = data.pop(deprecated_key)
+
+        def str_bool_to_bool(v):
+            if v == 'true': return True
+            if v == 'false': return False
+            return v
+
+        transforms = {
+            'typoTolerance': str_bool_to_bool,
+        }
+
+        for key, transform in get_items(transforms):
+            if key in data:
+                data[key] = transform(data[key])
 
         return data
 
