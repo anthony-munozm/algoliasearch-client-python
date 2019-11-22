@@ -194,6 +194,7 @@ class TestSearchClient(unittest.TestCase):
 
         has_pending_mappings = mcm.has_pending_mappings(False)
         self.assertTrue(has_pending_mappings['pending'])
+        self.assertFalse('clusters' in has_pending_mappings)
 
     def test_api_keys(self):
         response = self.client.add_api_key(['search'], {
